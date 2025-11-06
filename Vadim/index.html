@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grocery Smart — Vertical Prototype (Find & Compare Deals)</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="assets/logos/gs.svg" type="image/svg+xml">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header id="top" class="app-header" role="banner" aria-label="App header">
+    <div class="brand">
+      <img src="assets/logos/gs.svg" alt="" class="brand-logo" />
+      <div class="brand-text">
+        <h1 class="app-name">Grocery Smart</h1>
+        <p class="tagline">Smarter shopping made simple.</p>
+      </div>
+    </div>
+
+    <nav aria-label="Global">
+      <ul class="nav">
+        <li><a href="#home" class="nav-link" data-screen-link>Home</a></li>
+        <li><a href="#deals-menu" class="nav-link" data-screen-link>Deals</a></li>
+        <li><a href="#search" class="nav-link" data-screen-link>Search</a></li>
+        <li><a href="#about" class="nav-link" data-screen-link>About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+
+    <!-- ========== HOME ========== -->
+    <section id="home" class="screen" role="region" aria-labelledby="home-title" data-screen="home">
+      <div class="container">
+        <h2 id="home-title">Welcome</h2>
+        <p class="lede">Plan smarter grocery runs with real-time deals and clear budgets.</p>
+
+        <!-- ===== ADDED: CURRENT CART / TRIP BANNER ===== -->
+        <section class="cart-banner" aria-label="Current cart">
+          <div class="cart-banner__left">
+            <div class="cart-badge">Cart • 7 items</div>
+            <h3 class="cart-title">Trip to <span class="cart-store">Metro (King St)</span></h3>
+            <p class="cart-meta">
+              Est. total <strong>$42.80</strong> · Budget left <strong>$17.20</strong>
+            </p>
+
+            <ul class="cart-tags" aria-hidden="true">
+              <li class="pill">Chicken Breast</li>
+              <li class="pill">Milk 2L</li>
+              <li class="pill">Eggs — 12</li>
+              <li class="pill">Rice 5kg</li>
+              <li class="pill">Tomato sauce</li>
+              <li class="pill more">+2 more</li>
+            </ul>
+
+            <div class="budget-bar" role="img" aria-label="Budget: 71% used">
+              <div class="budget-bar__fill" style="width:71%"></div>
+            </div>
+          </div>
+
+          <div class="cart-banner__right">
+            <a class="btn btn-primary btn-wide" href="#results" data-screen-link>Resume trip</a>
+            <button class="btn btn-ghost btn-wide" aria-disabled="true" disabled>Change store</button>
+          </div>
+        </section>
+        <!-- ===== END ADDED: CURRENT CART / TRIP BANNER ===== -->
+
+        <!-- ===== ADDED: QUICK ACTIONS (decorative) ===== -->
+        <section class="quick-actions" aria-label="Quick actions">
+          <button class="qa-btn">
+            🔍 Compare my list
+            <span class="qa-meta">Find best store</span>
+          </button>
+          <button class="qa-btn">
+            🧾 Add from receipt
+            <span class="qa-meta">Auto-detect items</span>
+          </button>
+          <button class="qa-btn" aria-disabled="true" disabled>
+            📷 Scan barcode
+            <span class="qa-meta">Camera (soon)</span>
+          </button>
+          <button class="qa-btn">
+            🎙️ Voice add
+            <span class="qa-meta">“Add chicken”</span>
+          </button>
+          <button class="qa-btn">
+            🤝 Share list
+            <span class="qa-meta">With roommates</span>
+          </button>
+          <button class="qa-btn">
+            🛍️ Shopping mode
+            <span class="qa-meta">Large buttons</span>
+          </button>
+        </section>
+        <!-- ===== END ADDED: QUICK ACTIONS ===== -->
+
+        <div class="cta-wrap">
+          <a href="#deals-menu" class="btn btn-primary" data-screen-link>
+            🛒 View Deals &amp; Compare Prices
+          </a>
+        </div>
+
+        <nav aria-label="Secondary">
+          <ul class="quick-links">
+            <li><a href="#search" data-screen-link>Find deal for an item</a></li>
+            <li><a href="#results" data-screen-link aria-disabled="true">See sample results</a></li>
+          </ul>
+        </nav>
+
+        <!-- Quick start section -->
+        <section id="home-widgets">
+          <h3>Quick start</h3>
+          <div id="recent-chips" class="quick-chips"></div>
+
+          <h3>Popular deals near you</h3>
+          <ul id="popular-list" class="popular-list"></ul>
+        </section>
+
+        <!-- Scenarios & Tasks (Lecture 10) 
+        <section id="scenarios">
+          <h3>Sample Scenarios &amp; Tasks</h3>
+          <details>
+            <summary>Scenario 1 — Family Dinner Prep</summary>
+            <p>Maria is planning a family dinner and wants to find the best deal for chicken within 5 km.</p>
+            <ol>
+              <li>Open Grocery Smart</li>
+              <li>Select "View Deals & Compare Prices"</li>
+              <li>Search "Chicken Breast"</li>
+              <li>Choose Metro as "Best Deal"</li>
+              <li>Confirm and save trip</li>
+            </ol>
+          </details>
+          <details>
+            <summary>Scenario 2 — Student Budgeting</summary>
+            <p>Jake wants to buy milk and eggs but stay under his $15 budget.</p>
+            <ol>
+              <li>Search "Milk 2L"</li>
+              <li>Compare deals</li>
+              <li>Switch to "Last Paid Price"</li>
+              <li>Mark cheapest store</li>
+            </ol>
+          </details>
+        </section>-->
+
+        <footer class="meta">
+          <small>v1.1 • <a href="#about" data-screen-link>About & Methods</a></small>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ========== DEALS MENU ========== -->
+    <section id="deals-menu" class="screen" role="region" aria-labelledby="deals-menu-title" data-screen="menu" hidden>
+      <div class="container">
+        <header class="screen-header">
+          <a href="#home" class="back" data-screen-link aria-label="Back to Home">← Back</a>
+          <h2 id="deals-menu-title">Deals &amp; Price Comparison</h2>
+        </header>
+
+        <div class="button-stack">
+          <a href="#search" class="btn btn-xxl" data-screen-link>🔍 Find Deal for an Item</a>
+          <button class="btn btn-xxl" disabled>🧾 Compare My List</button>
+        </div>
+        <p class="hint">Choose one option to proceed.</p>
+      </div>
+    </section>
+
+    <!-- ========== SEARCH ITEM ========== -->
+    <section id="search" class="screen" role="region" aria-labelledby="search-title" data-screen="search" hidden>
+      <div class="container">
+        <header class="screen-header">
+          <a href="#deals-menu" class="back" data-screen-link>← Back</a>
+          <h2 id="search-title">Find deal for an item</h2>
+        </header>
+
+        <form class="search-form" role="search">
+          <div class="searchbar">
+            <label for="q" class="visually-hidden">Search item</label>
+            <input id="q" name="q" type="search" placeholder="e.g., Chicken breast"
+                   aria-autocomplete="list" aria-controls="suggest-list" aria-expanded="false" />
+            <button class="icon-btn" type="button" disabled>🎙️</button>
+          </div>
+          <p id="search-help" class="assistive">
+            Start typing to see suggestions (≤7 items).
+          </p>
+          <div class="suggestions" id="suggestions" hidden>
+            <ul id="suggest-list" role="listbox"></ul>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="submit" disabled>Continue</button>
+            <button class="btn btn-ghost" type="button" data-example="Chicken breast">Use example</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ========== RESULTS (MAP + LIST) ========== -->
+    <section id="results" class="screen" role="region" aria-labelledby="results-title" data-screen="results" hidden>
+      <div class="container">
+        <header class="screen-header">
+          <a href="#search" class="back" data-screen-link>← Back</a>
+          <h2 id="results-title">Best deals for <span id="query-label">—</span></h2>
+          <div class="tags">
+            <span class="tag tag-best" id="tag-best" hidden>Best overall</span>
+            <span class="tag tag-warn" id="tag-warn" hidden>Expires soon</span>
+          </div>
+        </header>
+
+        <!-- Toolbar (Sort + Radius) -->
+        <div class="results-toolbar" role="toolbar">
+          <label>Sort by:
+            <select id="sort-select">
+              <option value="score">Best</option>
+              <option value="price">Lowest price</option>
+              <option value="distance">Nearest</option>
+              <option value="expiry">Expiring soon</option>
+            </select>
+          </label>
+          <label>Radius:
+            <input type="range" id="radius" min="1" max="10" step="1" value="5">
+            <span id="radius-label">5 km</span>
+          </label>
+        </div>
+
+        <div class="results-layout">
+          <figure class="map-figure">
+            <div class="map-placeholder" role="img" aria-label="Nearby stores map preview"></div>
+            <figcaption class="meta">Map preview (simulated)</figcaption>
+          </figure>
+
+        <section aria-label="Store offers">
+            <ul id="store-list" class="store-list"></ul>
+          </section>
+        </div>
+
+        <footer class="provenance">
+          <p class="badge" id="provenance">Prices based on preferred store (Metro). Last sync: 2h ago.</p>
+          <button class="btn btn-ghost" id="change-source">Change price source</button>
+        </footer>
+      </div>
+    </section>
+
+    <!-- ========== DETAILS SHEET (MODAL) ========== -->
+    <div id="sheet-backdrop" class="sheet-backdrop" aria-hidden="true" hidden>
+      <section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" aria-describedby="sheet-desc">
+        <header class="sheet-header">
+          <h3 id="sheet-title">—</h3>
+          <p id="sheet-desc" class="meta">Deal details and price breakdown.</p>
+        </header>
+
+        <div class="sheet-body">
+          <p class="meta" id="sheet-address">—</p>
+          <div class="deal-tags">
+            <span class="tag" id="sheet-expiry">Valid until —</span>
+            <span class="tag">Source: <span id="sheet-source">—</span></span>
+            <span class="badge">Sample data (WoZ)</span>
+          </div>
+          <table class="price-table">
+            <thead><tr><th>Item</th><th>Price</th></tr></thead>
+            <tbody id="price-rows"></tbody>
+          </table>
+        </div>
+
+        <footer class="sheet-actions">
+          <button class="btn btn-success" id="mark-dest">✅ Mark as Destination</button>
+          <button class="btn" id="close-sheet">Cancel</button>
+        </footer>
+      </section>
+    </div>
+
+    <!-- ========== CONFIRMATION ========== -->
+    <section id="confirm" class="screen" role="region" aria-labelledby="confirm-title" data-screen="confirm" hidden>
+      <div class="container">
+        <header class="screen-header">
+          <h2 id="confirm-title">🎉 Trip Saved!</h2>
+        </header>
+
+        <article class="summary-card" role="status" aria-live="polite">
+          <dl class="summary-grid">
+            <div><dt>Destination</dt><dd id="dest-name">—</dd></div>
+            <div><dt>Distance</dt><dd id="dest-distance">—</dd></div>
+            <div><dt>Item price</dt><dd id="dest-price">—</dd></div>
+            <div><dt>Estimated savings</dt><dd id="dest-savings">—</dd></div>
+          </dl>
+          <figure class="map-figure small">
+            <div class="map-placeholder" role="img" aria-label="Route preview map"></div>
+            <figcaption class="meta">Route preview (simulated)</figcaption>
+          </figure>
+        </article>
+
+        <p class="meta">Next best price was auto-detected — you saved <span id="dest-savings-copy">$0.00</span>.</p>
+
+        <div class="actions">
+          <a href="#results" class="btn" data-screen-link>Back to results</a>
+          <a href="#home" class="btn btn-primary" data-screen-link>Done</a>
+        </div>
+        <div class="visually-hidden" role="status" aria-live="polite" id="live-status"></div>
+      </div>
+    </section>
+
+    <!-- ========== ABOUT & METHODS (UCD reflection) ========== -->
+    <section id="about" class="screen" role="region" aria-labelledby="about-title" data-screen="about" hidden>
+      <div class="container">
+        <header class="screen-header">
+          <a href="#home" class="back" data-screen-link>← Back</a>
+          <h2 id="about-title">About &amp; Methods</h2>
+        </header>
+        <p>This high-fidelity vertical prototype demonstrates a single end-to-end task from the Grocery Smart app: finding and saving the best grocery deal.</p>
+        <ul>
+          <li><strong>Design type:</strong> Vertical prototype (depth focus)</li>
+          <li><strong>Methodology:</strong> User-Centred Design (Investigate → Ideate → Prototype → Evaluate)</li>
+          <li><strong>Testing:</strong> Task-based usability with 5 users, success/time/satisfaction metrics</li>
+          <li><strong>Wizard-of-Oz:</strong> Data simulated from pre-loaded JSON (no real API)</li>
+        </ul>
+        <p class="meta">© 2025 Team 24 · McMaster University · COMPSCI 4HC3</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer" role="contentinfo">
+    <small>© 2025 Team 24 — COMPSCI 4HC3</small>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

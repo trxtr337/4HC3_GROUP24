@@ -1,0 +1,513 @@
+/*=========================================================
+  Grocery Smart — Vertical Prototype
+  STYLE SHEET (aligned with 4HC3 lectures)
+  - L13 Perception & Vision: contrast, hierarchy, preattentive cues
+  - L14 Gestalt: proximity, similarity, continuity, symmetry, closure
+  - L15 Memory & Cognition: recognition > recall, predictable placement
+  - L5  Usability & UX goals: efficiency, effectiveness, safety, satisfaction
+  - Accessibility: WCAG AA contrast, ≥44px targets, visible focus, reduced motion
+=========================================================*/
+
+/* ---------- 0) DESIGN TOKENS (Perception & Vision – L13) ---------- */
+:root{
+  /* Color palette (meaningful hues, not decorative) */
+  --bg:            #0E1420;   /* Neutral BG 1 (21:1 with white) */
+  --bg-card:       #1F2833;   /* Neutral BG 2 (cards) ~7:1 with white */
+  --ink:           #FFFFFF;   /* Primary text */
+  --muted:         #A9B7C6;   /* Secondary text / metadata */
+  --line:          #2A3543;   /* Subtle dividers */
+
+  --primary:       #2E86DE;   /* Primary CTA (blue) */
+  --success:       #28C76F;   /* “Best deal”, confirmations (green) */
+  --warn:          #FDCB6E;   /* “Expires soon” (yellow) */
+  --danger:        #E74C3C;   /* Errors / destructive */
+  --highlight:     #B6F3D0;   /* Selection/hover accent */
+
+  /* Elevation */
+  --shadow-1:      0 6px 16px rgba(0,0,0,.35);
+  --shadow-2:      0 10px 28px rgba(0,0,0,.45);
+
+  /* Type scale (readability – L13) */
+  --fs-14: 14px;   /* captions */
+  --fs-16: 16px;   /* body, buttons (base) */
+  --fs-20: 20px;   /* h2 */
+  --fs-24: 24px;   /* h1 */
+
+  /* Spacing rhythm (Gestalt continuity – L14) */
+  --space-4:  4px;
+  --space-8:  8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+
+  /* Radii (closure – L14) */
+  --r-8:   8px;
+  --r-12:  12px;
+  --r-16:  16px;
+
+  /* Focus (safety + visibility – L5/L13) */
+  --focus: #FFD166; /* amber outline */
+}
+
+/* ---------- 1) CSS RESET (predictable placement – L15) ---------- */
+*{ box-sizing:border-box; }
+html, body{ margin:0; padding:0; }
+img{ max-width:100%; display:block; }
+button, a{ -webkit-tap-highlight-color: transparent; }
+
+/* ---------- 2) BASE TYPOGRAPHY (Perception & Vision – L13) ---------- */
+html{ font-size:16px; }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+}
+h1, h2, h3{ margin:0 0 var(--space-12); line-height:1.25; }
+h1{ font-size:var(--fs-24); font-weight:800; }
+h2{ font-size:var(--fs-20); font-weight:700; }
+h3{ font-size:18px; font-weight:700; }
+p{ margin:0 0 var(--space-12); color:var(--ink); }
+.meta, .assistive, .subtitle, .badge, .tag, .muted{ color:var(--muted); font-size:var(--fs-14); }
+
+/* ---------- 3) GLOBAL LAYOUT (Gestalt symmetry/continuity – L14) ---------- */
+.app-header, .app-footer{
+  max-width:1100px; margin:0 auto; padding: var(--space-16);
+}
+.app-footer{
+  border-top:1px solid var(--line);
+  color:var(--muted);
+}
+.brand{ display:flex; align-items:center; gap:var(--space-12); }
+.brand-logo{ width:40px; height:40px; border-radius:10px; background:linear-gradient(135deg,var(--primary), #8BE9FD); box-shadow:var(--shadow-1); }
+.brand-text .tagline{ color:var(--muted); }
+
+.nav{ list-style:none; display:flex; gap:var(--space-12); margin:0; padding:0; }
+.nav-link{ color:var(--muted); text-decoration:none; padding:var(--space-8) var(--space-12); border-radius:var(--r-8); }
+.nav-link:hover{ background:#151C29; color:var(--ink); }
+
+main{ display:block; }
+.container{
+  max-width:1100px; margin:0 auto;
+  padding: var(--space-24) var(--space-16);
+}
+
+/* ---------- 4) SCREEN WRAPPERS (closure & rhythm – L14) ---------- */
+.screen{
+  margin: var(--space-16) auto;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-16);
+  box-shadow: var(--shadow-1);
+}
+.screen-header{
+  display:flex; align-items:center; gap:var(--space-12);
+  justify-content:space-between; margin-bottom:var(--space-12);
+}
+.back{
+  color:var(--muted); text-decoration:none;
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--r-8);
+  border:1px solid transparent;
+}
+.back:hover{ background:#151C29; color:var(--ink); }
+
+/* ---------- 5) TEXT HELPERS ---------- */
+.lede{ color:var(--muted); max-width:60ch; }
+.hint{ color:var(--muted); margin-top:var(--space-12); }
+.badge{
+  display:inline-flex; gap:var(--space-8); align-items:center;
+  padding: var(--space-8) var(--space-12);
+  border-radius:999px;
+  background:#142033; border:1px solid var(--line);
+}
+
+/* ---------- 6) BUTTONS (preattentive cues & Fitts’ Law – L13/L5) ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; /* Accessibility target */
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--r-12);
+  border: 1px solid var(--line);
+  background:#1A2230; color:var(--ink);
+  font-weight:600; text-decoration:none; cursor:pointer;
+}
+.btn:hover{ background:#202A3A; }
+.btn:disabled, .btn[aria-disabled="true"]{ opacity:.5; cursor:not-allowed; }
+
+.btn-primary{
+  background: var(--primary);
+  color:#06162E; border-color:transparent;
+  box-shadow: var(--shadow-1);
+}
+.btn-primary:hover{ filter: brightness(1.05); }
+
+.btn-success{
+  background: var(--success);
+  color:#062012; border-color:transparent;
+}
+
+.btn-ghost{
+  background: transparent;
+}
+
+.btn-xxl{
+  width:100%; padding: var(--space-16) var(--space-16);
+  font-size: var(--fs-16);
+}
+
+/* ---------- 7) TAGS / CHIPS (pre-attentive signals – L13) ---------- */
+.tags{ display:flex; gap:var(--space-8); align-items:center; margin-top:var(--space-8); }
+.tag{
+  display:inline-flex; align-items:center; gap:var(--space-8);
+  padding: 4px 10px; border-radius:999px; border:1px solid var(--line);
+  background:#121A27; font-size: var(--fs-14);
+}
+.tag-best{ border-color:#2B7A4B; color:#B6F3D0; background:#0F261A; }
+.tag-warn{ border-color:#5A471F; color:#FFE4AD; background:#2A2211; }
+
+/* ---------- 8) LISTS & LINKS ---------- */
+.quick-links{ list-style:none; display:flex; gap:var(--space-16); padding:0; margin:var(--space-16) 0; }
+.quick-links a{ color:var(--muted); text-decoration:none; border-bottom:1px dashed var(--line); }
+.quick-links a:hover{ color:var(--ink); border-bottom-color:var(--ink); }
+
+/* ---------- 9) SEARCH (Recognition > Recall – L15) ---------- */
+.search-form{ display:grid; gap:var(--space-16); }
+.searchbar{
+  position:relative; display:flex; align-items:center; gap:var(--space-8);
+}
+.searchbar input{
+  flex:1; min-height:48px; padding: var(--space-12) var(--space-16);
+  border-radius: var(--r-12); border:1px solid var(--line);
+  background:#0E1420; color:var(--ink);
+}
+.icon-btn{
+  min-height:44px; min-width:44px; display:inline-grid; place-items:center;
+  border-radius: var(--r-12); border:1px solid var(--line); background:#121A27; color:var(--muted);
+}
+.icon-btn:disabled{ opacity:.6; }
+
+.suggestions{ border:1px solid var(--line); border-radius: var(--r-12); overflow:hidden; }
+#suggest-list{ list-style:none; margin:0; padding:0; }
+#suggest-list li{
+  background:#0E1420; color:var(--ink);
+  padding: var(--space-12) var(--space-16); cursor:pointer;
+}
+#suggest-list li + li{ border-top:1px solid var(--line); }
+#suggest-list li:hover, #suggest-list li[aria-selected="true"]{ background:#182133; }
+
+/* ---------- 10) RESULTS LAYOUT (Similarity/Proximity – L14) ---------- */
+.results-layout{
+  display:grid; gap:var(--space-16);
+  grid-template-columns: 1fr 1.2fr;
+}
+@media (max-width: 980px){ .results-layout{ grid-template-columns:1fr; } }
+
+.map-figure{ margin:0; }
+.map-placeholder{
+  height: 320px; border-radius: var(--r-16);
+  background:
+    radial-gradient(60% 60% at 70% 30%, rgba(46,134,222,.28), transparent 60%),
+    radial-gradient(40% 60% at 20% 70%, rgba(40,199,111,.22), transparent 65%),
+    linear-gradient(180deg,#0E1420,#0A1019 50%, #0E1420);
+  border:1px solid var(--line); box-shadow: var(--shadow-1);
+}
+
+/* Store cards (repeated pattern → Similarity; grouped content → Proximity) */
+.store-list{ list-style:none; margin:0; padding:0; display:grid; gap:var(--space-12); max-height: 360px; overflow:auto; }
+.store-card{
+  background:#0E1420; border:1px solid var(--line);
+  border-radius: var(--r-12); padding: var(--space-14, 14px);
+  display:grid; grid-template-columns: 1fr auto; gap:var(--space-8);
+}
+.store-card h4{ margin:0 0 2px; font-size:17px; }
+.store-card .meta{ color:var(--muted); }
+.store-card .price{ font-weight:800; font-size:18px; text-align:right; }
+.store-card .tag-row{ display:flex; gap:var(--space-8); justify-content:flex-end; }
+.store-card.best{
+  border-color:#2B7A4B;
+  background: linear-gradient(0deg, rgba(40,199,111,.14), rgba(40,199,111,.06)), #0F1723;
+}
+
+/* ---------- 11) PROVENANCE (Trust & Transparency – L5) ---------- */
+.provenance{
+  display:flex; gap:var(--space-12); align-items:center; justify-content:space-between;
+  margin-top: var(--space-12);
+}
+
+/* ---------- 12) SHEET / MODAL (Closure – L14; Safety – L5) ---------- */
+.sheet-backdrop{
+  position:fixed; inset:0; background:rgba(0,0,0,.55);
+  display:flex; align-items:flex-end; justify-content:center;
+  padding: var(--space-16);
+  z-index: 1000;
+}
+.sheet{
+  width:100%; max-width:800px; background:var(--bg-card);
+  border:1px solid var(--line); border-radius: var(--r-16) var(--r-16) 0 0;
+  box-shadow: var(--shadow-2);
+  padding: var(--space-16);
+}
+.sheet-header{ margin-bottom: var(--space-12); }
+.sheet-body{ display:grid; gap:var(--space-12); }
+.deal-tags{ display:flex; gap:var(--space-8); flex-wrap:wrap; }
+
+.price-table{
+  width:100%; border-collapse:collapse; border:1px solid var(--line);
+  border-radius: var(--r-12); overflow:hidden;
+}
+.price-table th, .price-table td{
+  text-align:left; padding: var(--space-12); border-bottom:1px solid var(--line);
+}
+.price-table thead th{ background:#121A27; color:var(--muted); }
+
+.sheet-actions{
+  display:flex; gap:var(--space-12); justify-content:flex-end; margin-top: var(--space-12);
+}
+
+/* ---------- 13) CONFIRMATION SUMMARY (Symmetry – L14) ---------- */
+.summary-card{
+  background:#0E1420; border:1px solid var(--line); border-radius: var(--r-16);
+  padding: var(--space-16); box-shadow: var(--shadow-1);
+}
+.summary-grid{
+  display:grid; grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: var(--space-12); margin: 0 0 var(--space-16);
+}
+.summary-grid dt{ color:var(--muted); font-size: var(--fs-14); }
+.summary-grid dd{ margin:0; font-weight:700; }
+
+.map-figure.small .map-placeholder{ height:220px; }
+
+/* ---------- 14) ACCESSIBILITY & INTERACTION (Safety – L5) ---------- */
+.visually-hidden{
+  position:absolute !important; width:1px; height:1px; margin:-1px; border:0; padding:0; clip:rect(0 0 0 0); overflow:hidden;
+}
+.skip-link{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skip-link:focus{
+  position:static; width:auto; height:auto; background:var(--primary); color:#06162E;
+  padding: var(--space-8) var(--space-12); border-radius: var(--r-8);
+}
+
+:focus-visible{
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--r-8);
+}
+
+/* Hover/active feedback (Gulf of Evaluation – L2) */
+.btn:active{ transform: translateY(1px); }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+}
+
+/* ---------- 15) RESPONSIVE TWEAKS ---------- */
+@media (max-width: 720px){
+  .nav{ flex-wrap:wrap; }
+  .screen-header{ flex-wrap:wrap; gap: var(--space-8); }
+  .provenance{ flex-direction:column; align-items:flex-start; gap: var(--space-8); }
+  .summary-grid{ grid-template-columns: 1fr; }
+}
+
+/* ---------- 16) UTIL CLASSES ---------- */
+.cta-wrap{ margin: var(--space-24) 0; }
+.button-stack{ display:grid; gap: var(--space-16); margin-top: var(--space-16); }
+.actions{ display:flex; gap: var(--space-12); flex-wrap:wrap; }
+.tags + .results-layout{ margin-top: var(--space-12); }
+
+/* Always honor the [hidden] attribute */
+[hidden] { display: none !important; }
+
+/* Extra guard for the details sheet */
+.sheet-backdrop[aria-hidden="true"] { display: none !important; }
+
+
+/* =========================
+   A) HOME: Quick Start блоки
+   ========================= */
+#home-widgets{ margin-top: var(--space-16); display:grid; gap: var(--space-16); }
+#home-widgets h3{ font-size:18px; font-weight:700; margin:0; }
+
+.quick-chips{ display:flex; gap: var(--space-8); flex-wrap:wrap; }
+.chip{
+  display:inline-flex; align-items:center; gap:8px; padding:8px 12px;
+  min-height:36px; border:1px solid var(--line); border-radius:999px;
+  background:#121A27; color:var(--ink); cursor:pointer; user-select:none;
+}
+.chip:hover{ background:#1A2230; }
+.chip:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+
+.popular-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+.popular-item{
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  padding:12px; border:1px solid var(--line); border-radius:12px; background:#0E1420;
+  box-shadow: var(--shadow-1);
+}
+.popular-item strong{ font-weight:700; }
+.popular-item .meta{ font-size:var(--fs-14); color:var(--muted); }
+.popular-item .price{ font-weight:800; }
+.popular-item:hover{ background:#101826; }
+.popular-item:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+
+/* ===================================
+   B) RESULTS: Toolbar (sort + radius)
+   =================================== */
+.results-toolbar{
+  display:flex; gap:16px; align-items:center; flex-wrap:wrap;
+  background:#121A27; border:1px solid var(--line); border-radius:12px;
+  padding:8px 12px; margin: 8px 0 12px;
+}
+.results-toolbar label{ display:flex; align-items:center; gap:8px; color:var(--muted); }
+.results-toolbar select,
+.results-toolbar input[type="range"]{
+  background:#0E1420; color:var(--ink); border:1px solid var(--line);
+  border-radius:8px; padding:6px 8px;
+}
+
+/* Range track/thumb (легкий кастом без слома доступности) */
+.results-toolbar input[type="range"]{ height: 28px; }
+.results-toolbar input[type="range"]::-webkit-slider-runnable-track{
+  height:6px; background:#1A2230; border-radius:999px; border:1px solid var(--line);
+}
+.results-toolbar input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:16px; height:16px; margin-top:-5px;
+  border-radius:50%; background:var(--primary); border:0; box-shadow:0 0 0 2px #06162E;
+}
+.results-toolbar input[type="range"]::-moz-range-track{
+  height:6px; background:#1A2230; border-radius:999px; border:1px solid var(--line);
+}
+.results-toolbar input[type="range"]::-moz-range-thumb{
+  width:16px; height:16px; border-radius:50%; background:var(--primary); border:0;
+}
+
+/* =========================================
+   C) Карточки: режим compact для плотности
+   ========================================= */
+.store-card.compact{ padding:10px 12px; }
+.store-card.compact h4{ font-size:16px; }
+.store-card.compact .price{ font-size:17px; }
+
+/* =================================================
+   D) Skeleton loaders (perceived performance, L14)
+   ================================================= */
+@keyframes skel-sheen{
+  0%{ background-position:-300px 0; }
+  100%{ background-position:300px 0; }
+}
+.skel{
+  position:relative; overflow:hidden; border-radius: var(--r-12);
+  background:#121A27;
+}
+.skel-line, .skel-title{
+  height:12px; border-radius:6px; margin:8px 0;
+  background: linear-gradient(90deg, #0E1420 0%, #1A2230 50%, #0E1420 100%);
+  background-size: 300px 100%;
+  animation: skel-sheen 1.25s linear infinite;
+}
+.skel-title{ height:16px; width:60%; }
+
+/* Пример контейнера-скелета карточки */
+.skel-card{ padding:12px; border:1px solid var(--line); }
+
+/* =============================================
+   E) Scenarios & About (структура и читабельность)
+   ============================================= */
+#scenarios{ margin-top: var(--space-24); }
+#scenarios details{
+  border:1px solid var(--line); border-radius:12px; background:#0E1420;
+  padding:12px; margin-top:12px;
+}
+#scenarios summary{
+  cursor:pointer; font-weight:700;
+}
+#scenarios ol{ margin:12px 0 0 18px; }
+
+#about .container ul{ margin:12px 0 0 18px; }
+#about .container li{ margin:6px 0; }
+
+/* ======================================
+   F) Badge для WoZ (Wizard-of-Oz заметка)
+   ====================================== */
+.badge.wizard{
+  background:#221431; border-color:#4c2a6b; color:#d8c9f0;
+}
+
+/* ===================================================
+   G) Утилиты/мелочи для новых элементов и фокусов
+   =================================================== */
+.results-toolbar select:focus-visible,
+.results-toolbar input[type="range"]:focus-visible,
+.popular-item:focus-visible,
+.chip:focus-visible{ outline:3px solid var(--focus); outline-offset:2px; }
+
+/* Небольшой отступ сверху у .results-layout, если есть toolbar */
+.results-toolbar + .results-layout{ margin-top: var(--space-12); }
+
+
+/* ===============================
+   H) ADDED: Cart banner & actions
+   =============================== */
+
+/* Cart / Trip banner */
+.cart-banner{
+  display:grid; gap:16px; grid-template-columns: 1.4fr 0.8fr;
+  background: linear-gradient(135deg, rgba(46,134,222,.12), rgba(40,199,111,.10));
+  border:1px solid var(--line); border-radius: var(--r-16);
+  padding: var(--space-16); box-shadow: var(--shadow-1); margin-bottom: var(--space-16);
+}
+@media (max-width: 880px){ .cart-banner{ grid-template-columns:1fr; } }
+
+.cart-banner__left  { display:grid; gap:10px; }
+.cart-banner__right { display:grid; gap:10px; align-content:start; }
+
+.cart-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 10px; border-radius:999px;
+  background:#142033; border:1px solid var(--line); color:var(--muted); font-size:14px;
+}
+.cart-title{ margin:0; font-size:18px; font-weight:800; }
+.cart-store{ color:#B6F3D0; }
+.cart-meta{ margin:0; color:var(--muted); }
+
+.cart-tags{ list-style:none; display:flex; flex-wrap:wrap; gap:8px; padding:0; margin:4px 0 0; }
+.pill{
+  padding:6px 10px; border:1px solid var(--line); border-radius:999px;
+  background:#121A27; font-size:14px; color:var(--ink);
+}
+.pill.more{ color:var(--muted); border-style:dashed; }
+
+.budget-bar{
+  height:10px; background:#121A27; border:1px solid var(--line);
+  border-radius:999px; overflow:hidden; margin-top:6px;
+}
+.budget-bar__fill{
+  height:100%; background:linear-gradient(90deg, var(--primary), var(--success));
+  width:60%;
+}
+
+/* Right-side CTA helpers */
+.btn-wide{ width:100%; }
+
+/* Quick actions grid (decorative buttons) */
+.quick-actions{
+  display:grid; grid-template-columns: repeat(3, minmax(0,1fr));
+  gap:12px; margin-bottom: var(--space-16);
+}
+@media (max-width: 880px){ .quick-actions{ grid-template-columns:1fr 1fr; } }
+
+.qa-btn{
+  text-align:left; padding:14px; border-radius:12px; cursor:pointer;
+  background:#101826; border:1px solid var(--line); color:var(--ink);
+  display:flex; flex-direction:column; gap:6px; min-height:84px; box-shadow: var(--shadow-1);
+}
+.qa-btn:hover{ background:#162033; }
+.qa-btn[disabled], .qa-btn[aria-disabled="true"]{ opacity:.6; cursor:not-allowed; }
+.qa-meta{ color:var(--muted); font-size:14px; }
+
+
+/* End of stylesheet */
