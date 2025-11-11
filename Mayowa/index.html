@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shared Grocery – Collaboration Vertical</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar card">
+      <div class="left">
+        <div class="store-chip" role="group" aria-label="Selected Store">
+          <span class="label">Selected Store:</span>
+          <select id="storeSelect" aria-label="Store">
+            <option value="fresh">Fresh Groceries Co.</option>
+            <option value="metro">Metro</option>
+            <option value="nofrills">No Frills</option>
+          </select>
+        </div>
+      </div>
+      <div class="right">
+        <div class="user-switch" role="group" aria-label="Current user">
+          <label for="userSwitch">Act as:</label>
+          <select id="userSwitch" aria-label="Current user"></select>
+        </div>
+        <button class="btn" id="contributorsBtn">Contributors</button>
+        <button class="btn ghost" id="newListBtn" title="New List / Delete Current">New List</button>
+      </div>
+    </header>
+
+    <main class="screen card">
+      <section class="header-row">
+        <h1>Shared Grocery List</h1>
+        <div class="budget" id="budget">$135 / $150</div>
+      </section>
+
+      <!-- Budget progress -->
+      <section class="budget-row" aria-label="Budget progress">
+        <div class="budget-track" id="budgetTrack">
+          <div class="budget-fill" id="budgetFill"></div>
+        </div>
+        <div class="budget-meta">
+          <div id="budgetText">$135 of $150</div>
+          <div id="budgetPct">0%</div>
+        </div>
+      </section>
+
+      <!-- Members quick row (owner outlined in blue) -->
+      <section class="members" aria-label="Members" id="membersRow"></section>
+
+      <!-- Search + Sort -->
+      <section class="search-row">
+        <div class="search">
+          <button id="micBtn" class="icon-btn" aria-label="Voice search">🎤</button>
+          <input id="searchInput" type="text" placeholder="Search item or category (voice/keyboard)" />
+        </div>
+        <div class="sort">
+          <label for="sortSelect" class="sr-only">Sort</label>
+          <select id="sortSelect">
+            <option value="alpha">Sort: A → Z</option>
+            <option value="best">Sort: Best deal (stub)</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Add Item -->
+      <section class="add-row" aria-label="Add item">
+        <input id="addName"  class="add name" type="text"  placeholder="Item name (e.g., Bananas)" />
+        <input id="addQty"   class="add qty"  type="number" min="1" value="1" />
+        <input id="addPrice" class="add price" type="number" step="0.01" min="0" placeholder="Price" />
+        <input id="addNotes" class="add notes" type="text"  placeholder="Notes (optional)" />
+        <button id="addBtn" class="btn primary">Add</button>
+      </section>
+
+      <!-- List -->
+      <section class="list" id="list" aria-label="List items"></section>
+
+      <!-- Join requests -->
+      <section class="join-requests" aria-label="Join requests">
+        <h2>Friend/Family join requests</h2>
+        <div id="requests"></div>
+      </section>
+
+      <!-- Activity -->
+      <section class="activity">
+        <div class="activity-head">
+          <h2>Activity Log</h2>
+          <button class="btn icon" id="openFeed" aria-haspopup="true" aria-controls="feedDrawer">Open</button>
+        </div>
+        <aside class="card drawer" id="feedDrawer" aria-label="Activity" hidden>
+          <div class="drawer-head">
+            <h3>Activity</h3>
+            <button class="btn icon" id="closeFeed" aria-label="Close activity">✕</button>
+          </div>
+          <ul class="feed" id="feed"></ul>
+        </aside>
+      </section>
+    </main>
+
+    <!-- Manual Test Controls (no auto behavior) -->
+    <details class="test-panel card">
+      <summary>Test controls (manual)</summary>
+      <div class="test-controls" id="testControls">
+        <p class="muted">Trigger presence, remote edits, or open a conflict for an item. Nothing runs automatically.</p>
+      </div>
+    </details>
+
+    <!-- Offline -->
+    <div class="offline-row">
+      <label class="toggle">
+        <input type="checkbox" id="offlineToggle" />
+        <span>Offline</span>
+      </label>
+      <div id="offlineBanner" class="offline" role="status" aria-live="polite">
+        You are offline. Changes will queue and sync when online.
+      </div>
+    </div>
+  </div>
+
+  <!-- Contributors Modal -->
+  <div class="modal-backdrop" id="contributorsBackdrop" role="dialog" aria-modal="true" aria-labelledby="contributorsTitle" aria-hidden="true">
+    <div class="modal" role="document" tabindex="-1" id="contributorsCard">
+      <header>
+        <h2 id="contributorsTitle">Contributors</h2>
+        <button class="btn icon" id="contributorsClose" aria-label="Close">✕</button>
+      </header>
+      <div class="body">
+        <ul id="contributorsList" class="contributors"></ul>
+      </div>
+      <div class="foot">
+        <span class="muted">Owner can manage members. Actions below are stubs.</span>
+        <button class="btn primary" id="inviteFromModal">Invite (stub)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conflict Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="conflictTitle" aria-hidden="true">
+    <div class="modal" role="document" tabindex="-1" id="modalCard">
+      <header>
+        <h2 id="conflictTitle">Resolve changes</h2>
+        <button class="btn icon" id="modalClose" aria-label="Close">✕</button>
+      </header>
+      <div class="body">
+        <p class="muted">This item was changed by Sam. Choose which values to keep.</p>
+        <div class="diff">
+          <div class="panel">
+            <h3>Your changes</h3>
+            <div class="kv"><div class="k">Quantity</div><div id="mineQty">—</div></div>
+            <div class="kv"><div class="k">Notes</div><div id="mineNotes">—</div></div>
+          </div>
+          <div class="panel">
+            <h3>Sam’s changes <span class="time" id="remoteTime"></span></h3>
+            <div class="kv"><div class="k">Quantity</div><div id="theirsQty">—</div></div>
+            <div class="kv"><div class="k">Notes</div><div id="theirsNotes">—</div></div>
+          </div>
+        </div>
+        <div class="ops">
+          <button class="btn" id="keepMineQty">Keep my Qty</button>
+          <button class="btn" id="acceptTheirsQty">Accept Sam’s Qty</button>
+          <button class="btn" id="keepMineNotes">Keep my Notes</button>
+          <button class="btn" id="acceptTheirsNotes">Accept Sam’s Notes</button>
+          <button class="btn primary" id="keepAllMine">Accept All Mine</button>
+          <button class="btn" id="acceptAllTheirs">Accept All Sam’s</button>
+        </div>
+      </div>
+      <div class="foot">
+        <span class="muted">Conflicts happen when multiple people edit the same item at once.</span>
+        <button class="btn primary" id="applyResolution">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Snackbar -->
+  <div class="snack" id="snack">
+    <span id="snackMsg">Changes applied.</span>
+    <button class="btn" id="undoBtn">Undo</button>
+  </div>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
